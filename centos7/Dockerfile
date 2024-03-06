@@ -19,7 +19,7 @@ RUN yum makecache \
   && yum install -y openssh-server \
   		    java-11-openjdk \
                     git \
-                    python \
+                    python3 \
                     python3-pip \
                     sudo \
                     # umd-verification deps \
@@ -27,6 +27,10 @@ RUN yum makecache \
                     python3-devel \
                     openldap-devel \
   && yum clean all
+
+# config python
+RUN alternatives --install /usr/bin/python python /usr/bin/python2 40
+RUN alternatives --install /usr/bin/python python /usr/bin/python3.6 60
 
 # config sudo
 RUN sed -i '/%wheel/s/^/#/' /etc/sudoers \
