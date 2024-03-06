@@ -28,9 +28,9 @@ RUN yum makecache \
                     openldap-devel \
   && yum clean all
 
-# config python
-RUN alternatives --install /usr/bin/python python /usr/bin/python2 40
-RUN alternatives --install /usr/bin/python python /usr/bin/python3.6 60
+# symbolic link for pip
+RUN ln -sf /usr/bin/pip3 /usr/bin/pip
+# RUN ln -sf /usr/bin/python3.6 /usr/bin/python
 
 # config sudo
 RUN sed -i '/%wheel/s/^/#/' /etc/sudoers \
@@ -62,6 +62,5 @@ COPY setup-sshd /usr/local/bin/setup-sshd
 # Expose docker port 22
 EXPOSE 22
 
-# CMD ["/usr/sbin/sshd","-D"]
 ENTRYPOINT ["setup-sshd"]
 
